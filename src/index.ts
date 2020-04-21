@@ -33,7 +33,11 @@ app.get('/user', async (req: Request, res: Response) => {
 app.get('/user/:id', async (req: Request, res: Response) => {
   try {
     const user: User = await database('users').select().where({ id: req.params.id }).first();
-  res.json(user);
+    if (user) {
+      res.json(user);
+    } else {
+      res.sendStatus(404);
+    }
   } catch(error) {
     console.error(error);
     res.sendStatus(500);
@@ -49,7 +53,6 @@ app.post('/user', async (req: Request, res: Response) => {
       email: req.body.email,
       age: req.body.age
     }
-
     await database('users').insert(user);
     res.sendStatus(201);
   } catch(error) {
@@ -62,15 +65,19 @@ app.post('/user', async (req: Request, res: Response) => {
 // update
 app.put('/user/:id', async (req: Request, res: Response) => {
   try {
-    const user: User = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      age: req.body.age
+    const user: User = await database('users').select().where({ id: req.params.id }).first();
+    if (user) {
+      const newUser: User = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        age: req.body.age
+      }
+      await database('users').update(user).where({ id: req.params.id });
+      res.sendStatus(200);
+    } else {
+    res.sendStatus(404);
     }
-  
-    await database('users').update(user).where({ id: req.params.id });
-    res.sendStatus(200);
   } catch(error) {
     console.error(error);
     res.sendStatus(500);
@@ -80,8 +87,13 @@ app.put('/user/:id', async (req: Request, res: Response) => {
 // delete
 app.delete('/user/:id', async (req: Request, res: Response) => {
   try {
-    await database('users').delete().where({ id: req.params.id });
-  res.sendStatus(204);
+    const user: User = await database('users').select().where({ id: req.params.id }).first();
+    if (user) {
+      await database('users').delete().where({ id: req.params.id });
+      res.sendStatus(204);
+    } else {
+      res.sendStatus(404);
+    }
   } catch(error) {
     console.error(error);
     res.sendStatus(500);
