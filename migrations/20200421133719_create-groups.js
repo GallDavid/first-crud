@@ -6,6 +6,8 @@ exports.up = (knex) => {
     table.string('location');
     table.integer('maximalSize');
     table.timestamps();
+    // table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    // table.timestamp('created_at').defaultTo(knex.raw('CURRENT_TIMESTAMP'));
   });
 };
 
