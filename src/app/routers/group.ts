@@ -3,6 +3,7 @@ import * as groupController from '../controllers/group';
 
 export const router: Router = Router({ mergeParams: true });
 
+router.use(groupController.authorization);
 router.get('/', groupController.index);
 router.get('/:id', groupController.show);
 router.post('/', groupController.create);

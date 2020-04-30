@@ -1,7 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Express Typescript Skeleton",
+    "title": "first-crud",
+    "version": "1.0.0"
   },
   "schemes": [
     "http"
@@ -13,14 +14,144 @@
     "application/json"
   ],
   "paths": {
-    "/": {
+    "/group": {
       "get": {
-        "summary": "Hello World",
-        "operationId": "helloWorld",
+        "summary": "Get all groups",
+        "parameters": [
+          {
+          "in": "header",
+          "name": "Authorization",
+          "type": "string"
+        },
+        {
+          "in": "query",
+          "name": "q",
+          "type": "string"
+        }
+      ],
         "responses": {
           "200": {
-            "description": "Return with Hello World message"
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#definitions/Group"
+              }
+            }
           }
+        }
+      },
+      "post": {
+        "summary": "Create group",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "maximalSize": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "name",
+                "description",
+                "location",
+                "maximalSize"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/group/{id}": {
+      "get": {
+        "summary": "Get group by ID",
+        "parameters": [
+          {
+          "in": "header",
+          "name": "Authorization",
+          "type": "string"
+        }
+      ],
+        "responses": {
+          "200": {
+            "description": "Return with Group object",
+            "schema":{
+              "$ref": "#definitions/Group"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Modify group",
+        "parameters": [
+          {
+          "in": "header",
+          "name": "Authorization",
+          "type": "string"
+        }
+      ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete group",
+        "parameters": [
+          {
+          "in": "header",
+          "name": "Authorization",
+          "type": "string"
+        }
+      ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Group": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "maximalSize": {
+          "type": "integer"
         }
       }
     }

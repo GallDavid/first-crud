@@ -13,7 +13,7 @@ export const show = async (req: Request, res: Response) => {
     const user: User = await database('users').select().where({ groupId: req.params.groupId, id: req.params.id }).first();
     console.log(user);
     if (typeof user !== 'undefined') {
-      res.json(userSerializer.show(user))
+      res.json(userSerializer.show(user)) //megkapja az adott rekordokat és a külvilág felé továbbíthatóvá teszi a serializer
       res.json(user);
     } else {
       res.sendStatus(404);

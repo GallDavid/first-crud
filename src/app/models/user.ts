@@ -7,4 +7,6 @@ export interface User {
   created_at?: string;
   updated_at?: string;
   groupId?: number;
+  role?: string;
+  password?: string;
 }
