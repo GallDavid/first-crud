@@ -247,7 +247,7 @@ eval("\nexports.__esModule = true;\nvar userSerializer = __webpack_require__(/*!
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nexports.__esModule = true;\nexports.show = function (user) {\n    return {\n        firstName: user.firstName,\n        lastName: user.lastName,\n        fullName: user.firstName + \" \" + user.lastName\n    };\n};\nexports.index = function (users) {\n    return users.map(function (user) { return exports.show(user); });\n};\n\n\n//# sourceURL=webpack:///./src/app/serializers/user.ts?");
+eval("\nexports.__esModule = true;\nexports.show = function (user) {\n    return {\n        id: user.id,\n        firstName: user.firstName,\n        lastName: user.lastName,\n        fullName: user.firstName + \" \" + user.lastName,\n    };\n};\nexports.index = function (users) {\n    return users.map(function (user) { return exports.show(user); });\n};\n\n\n//# sourceURL=webpack:///./src/app/serializers/user.ts?");
 
 /***/ }),
 
