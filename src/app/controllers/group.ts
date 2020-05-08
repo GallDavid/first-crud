@@ -1,7 +1,7 @@
 import { Group} from "../models/group";
 import { database } from "../../lib/database";
 import { Request, Response, NextFunction } from "express";
-
+import { QueryBuilder } from "knex";
 
 export const authorization = (req: Request, res: Response, next: NextFunction) => {
   if(['admin', 'groupManager'].includes(res.locals.user.role)) {
@@ -11,8 +11,20 @@ export const authorization = (req: Request, res: Response, next: NextFunction) =
   }
 }
 
-export const index = async (req: Request, res: Response) => {
+/* export const index = async (req: Request, res: Response) => {
   const groups: Array<Group> = await database('groups').select();
+  res.json(groups);
+}; */
+
+export const index = async (req: Request, res: Response) => {
+  let query: QueryBuilder = database('groups').select();
+  if (req.query.limit) {
+    query = query.limit(req.query.limit);
+  }
+  if (req.query.offset) {
+    query = query.offset(req.query.offset);
+  }
+  const groups: Array<Group> = await query;
   res.json(groups);
 };
 
@@ -56,7 +68,7 @@ export const update = async (req: Request, res: Response) => {
         location: req.body.location,
         maximalSize: req.body.maximalSize
       }
-      await database('groups').update(group).where({ id: req.params.id });
+      await database('groups').update(newGroup).where({ id: req.params.id });
       res.sendStatus(200);
     } else {
       res.sendStatus(404);

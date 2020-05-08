@@ -3,10 +3,23 @@ import { database } from "../../lib/database";
 import { Request, Response } from "express";
 import * as userSerializer from '../serializers/user';
 import * as bcrypt from 'bcrypt';
+import { QueryBuilder } from "knex";
 
-export const index = async (req: Request, res: Response) => {
+/* export const index = async (req: Request, res: Response) => {
   const users: Array<User> = await database('users').select();
   res.json(users);
+}; */
+
+export const index = async (req: Request, res: Response) => {
+  let query: QueryBuilder = database('users').select();
+  if (req.query.limit) {
+    query = query.limit(req.query.limit);
+  }
+  if (req.query.offset) {
+    query = query.offset(req.query.offset);
+  }
+  const users: Array<User> = await query;
+  res.json(userSerializer.index(users));
 };
 
 export const show = async (req: Request, res: Response) => {
@@ -27,7 +40,8 @@ export const show = async (req: Request, res: Response) => {
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const encryptedPassword = bcrypt.hashSync(req.body.password, 10);
+    const pw = req.body.password;
+    const encryptedPassword = bcrypt.hashSync(pw, 10);
     console.log('REQ', req.body.password, 'HASH', encryptedPassword);
     const user: User = {
       firstName: req.body.firstName,

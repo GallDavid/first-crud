@@ -32,3 +32,8 @@ createMiddleware('config/swagger.json', app, (err, middleware: SwaggerMiddleware
     console.log(`server started at http://localhost:${PORT}`);
   });
 });
+
+// common.js - require, amit a node arra használ hogy fájlokat húzzon be
+// express - http szerver írására alkalmas keretrendszer
+// handler - következő stepre léptessük a láncban
+// middleware - ezzel lehet idő előtt visszaküldeni response-t
