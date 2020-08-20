@@ -25,7 +25,7 @@
     "@types/knex": "^0.16.1",
     "@types/swagger-express-middleware": "^1.0.10",
     "audit": "0.0.6",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "fix": "0.0.6",
     "jsonwebtoken": "^8.5.1",
